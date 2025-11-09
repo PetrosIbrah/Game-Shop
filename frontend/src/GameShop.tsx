@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./GameShop.css";
 
+type Game = {
+  id: number;
+  gameName: string;
+  releaseYear: number;
+  price: number;
+  developer: string;
+  gameTag: string;
+  platform: string;
+  stocks: number;
+};
+
 const GameShop: React.FC = () => {
+
+    const [game, setGame] = useState<Game | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+      fetch("/api/GamePage/2")
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch game");
+          return res.json();
+        })
+        .then((data) => setGame(data))
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false));
+    }, []);
 
     const goToHome = () => {
         window.location.href = "/";
@@ -46,7 +72,7 @@ const GameShop: React.FC = () => {
                 <div className="game-cover"></div>
 
                 <div className="game-info">
-                    <h1 className="game-title">Some Game</h1>
+                    <h1 className="game-title">{game?.gameName ?? "Some Game"}</h1>
 
                     <div className="banner">
                         <div className="banner-placeholder"></div>
