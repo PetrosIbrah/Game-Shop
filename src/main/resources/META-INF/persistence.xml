@@ -1,6 +1,8 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
     <persistence-unit name="Games-PR">
         <class>web.app.Identification.Game</class>
+        <class>web.app.Identification.Requirements</class>
+        <class>web.app.Identification.Images</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

@@ -16,10 +16,13 @@ public class Game {
     private String gameTag;
     private String platform;
     private Integer stocks;
+    @Lob
+    private String description;
 
     public Game() {}
 
-    public Game(Integer id, String gameName, Integer releaseYear, Integer price, String developer, String gameTag, String platform, Integer stocks) {
+    public Game(Integer id, String gameName, Integer releaseYear, Integer price,
+                String developer, String gameTag, String platform, Integer stocks, String description) {
         this.id = id;
         this.gameName = gameName;
         this.releaseYear = releaseYear;
@@ -28,7 +31,10 @@ public class Game {
         this.gameTag = gameTag;
         this.platform = platform;
         this.stocks = stocks;
+        this.description = description;
     }
+
+
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -53,4 +59,8 @@ public class Game {
 
     public Integer getStocks() { return stocks; }
     public void setStocks(Integer stocks) { this.stocks = stocks; }
+
+    public String getdescription() {return description;}
+
+    public void setdescription(String description) {description = description;}
 }

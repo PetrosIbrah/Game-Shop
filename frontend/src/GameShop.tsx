@@ -1,15 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./GameShop.css";
 
+type Game = {
+  id: number;
+  gameName: string;
+  releaseYear: number;
+  price: number;
+  developer: string;
+  gameTag: string;
+  platform: string;
+  stocks: number;
+  description: string;
+};
+
+type Requirements = {
+  reqid: number;
+  minos: string;
+  minprocessor: string;
+  minmemory: string;
+  mingraphics: string;
+  minstorage: string;
+  recos: string;
+  recprocessor: string;
+  recmemory: string;
+  recgraphics: string;
+  recstorage: string;
+};
+
+type Images = {
+  cover: string;
+  background: string;
+  screenshot1: string;
+  screenshot2: string;
+  screenshot3: string;
+}
+
 const GameShop: React.FC = () => {
-    // Function to navigate back to the root path ("/")
+    const gameId = localStorage.getItem("gameId");
+
+    const [game, setGame] = useState<Game | null>(null);
+    const [requirements, setRequirements] = useState<Requirements | null>(null);
+    const [images, setImages] = useState<Images | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+      fetch(`/api/GamePage/gameinfo/${gameId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch game");
+          return res.json();
+        })
+        .then((data) => setGame(data))
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false));
+    }, []);
+
+    useEffect(() => {
+      fetch(`/api/GamePage/gamereq/${gameId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch game");
+          return res.json();
+        })
+        .then((data) => setRequirements(data))
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false));
+    }, []);
+
+    useEffect(() => {
+      fetch(`/api/GamePage/gameimgs/${gameId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to fetch game");
+          return res.json();
+        })
+        .then((data) => setImages(data))
+        .catch((err) => setError(err.message))
+        .finally(() => setLoading(false));
+    }, []);
+
     const goToHome = () => {
         window.location.href = "/";
     };
 
     return (
         <div className="gameshop">
-            {/* HEADER */}
+            {/* MENU */}
+            {/* =================== */}
             <header className="header">
                 <button
                     className="logo"
@@ -31,37 +106,37 @@ const GameShop: React.FC = () => {
                 </div>
             </header>
 
-            {/* PLATFORM ICONS */}
+            {/* Platform icons */}
             <div className="platforms">
                 <img className="platform-icon" src="images/icons/steam.png" alt="Steam" title="Steam" />
                 <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation" title="PlayStation" />
                 <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox" title="Xbox" />
                 <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo" title="Nintendo" />
             </div>
+            {/* END MENU =================== */}
+
 
             {/* MAIN GAME SECTION */}
             <section className="game-section">
-                {/* GAME COVER (Now an image) */}
+                {/* Game cover */}
                 <img
                     className="game-cover"
-                    src="/Images/CoverArt/eldenring_ca.jpg"
-                    alt="Elden Ring Cover Art"
+                    src={images?.cover ?? "/Images/Notfound.jpg"}
+                    alt="Cover Art"
                 />
 
                 <div className="game-info">
-                    <h1 className="game-title">Elden Ring</h1>
+                    <h1 className="game-title">{game?.gameName ?? "Some Game"}</h1>
 
                     <div className="banner">
-                        {/* 1. The actual background image (positioned absolutely in CSS) */}
                         <img
                             className="banner-placeholder"
-                            src="/Images/Background/eldenring_bg.jpg"
-                            alt="Elden Ring Background"
+                            src={images?.background ?? "/Images/Notfound.jpg"}
+                            alt="Background"
                         />
 
-                        {/* 2. The gray information overlay (positioned absolutely over the image) */}
                         <div className="banner-info-box">
-                            <p>Elden Ring is an action role-playing game developed by FromSoftware and published by Bandai Namco Entertainment. Available Now!</p>
+                            <p>{game?.description ?? "Description not found"}</p>
 
                             <button className="buy-btn">Αγοράστε τώρα</button>
                         </div>
@@ -69,36 +144,39 @@ const GameShop: React.FC = () => {
                 </div>
             </section>
 
-            {/* SCREENSHOTS */}
+            {/* In Game Screen shots */}
             <section className="screenshots">
-                {/* SCREENSHOTS (Now images) */}
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc1.jpg" alt="Screenshot 1" />
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc2.jpg" alt="Screenshot 2" />
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc3.jpg" alt="Screenshot 3" />
+                <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} alt="Screenshot 1"
+                />
+                <img className="screenshot-placeholder" src={images?.screenshot2 ?? "/Images/Notfound.jpg"} alt="Screenshot 2"
+                />
+
+                <img className="screenshot-placeholder" src={images?.screenshot3 ?? "/Images/Notfound.jpg"} alt="Screenshot 3"
+                />
             </section>
 
-            {/* SYSTEM REQUIREMENTS */}
+            {/* System Requirements */}
             <section className="requirements">
                 <h2>SYSTEM REQUIREMENTS</h2>
                 <div className="req-columns">
                     <div className="req-block">
                         <h3>MINIMUM:</h3>
                         <ul>
-                            <li>OS: Windows 10</li>
-                            <li>Processor: Intel i5-8400 / AMD Ryzen 3 3300X</li>
-                            <li>Memory: 12 GB RAM</li>
-                            <li>Graphics: NVIDIA GTX 1060 / AMD RX 580</li>
-                            <li>Storage: 60 GB available space</li>
+                            <li>OS: {requirements?.minos ?? "N/AA"}</li>
+                            <li>Processor: {requirements?.minprocessor ?? "N/AA"}</li>
+                            <li>Memory: {requirements?.minmemory ?? "N/AA"}</li>
+                            <li>Graphics: {requirements?.mingraphics ?? "N/AA"}</li>
+                            <li>Storage: {requirements?.minstorage ?? "N/AA"}</li>
                         </ul>
                     </div>
                     <div className="req-block">
                         <h3>RECOMMENDED:</h3>
                         <ul>
-                            <li>OS: Windows 10/11</li>
-                            <li>Processor: Intel i7-8700K / AMD Ryzen 5 3600X</li>
-                            <li>Memory: 16 GB RAM</li>
-                            <li>Graphics: NVIDIA RTX 3060 / AMD RX 6700 XT</li>
-                            <li>Storage: 60 GB SSD</li>
+                            <li>OS: {requirements?.recos ?? "N/AA"}</li>
+                            <li>Processor: {requirements?.recprocessor ?? "N/AA"}</li>
+                            <li>Memory: {requirements?.recmemory ?? "N/AA"}</li>
+                            <li>Graphics: {requirements?.recgraphics ?? "N/AA"}</li>
+                            <li>Storage: {requirements?.recstorage ?? "N/AA"}</li>
                         </ul>
                     </div>
                 </div>

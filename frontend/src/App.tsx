@@ -35,10 +35,28 @@ function App() {
 
                     <button
                         onClick={() => {
+                            localStorage.setItem("gameId", String(1));
                             window.location.href = "/GameShop";
                         }}
-                    >
-                        Button Test (Go to some game)
+                        >
+                        Button Test (Go to elden ring)
+                    </button>
+                    <button
+                        onClick={() => {
+                            localStorage.setItem("gameId", String(2));
+                            window.location.href = "/GameShop";
+                        }}
+                        >
+                        Button Test (Go to God Of War)
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            localStorage.setItem("gameId", String(0));
+                            window.location.href = "/GameShop";
+                        }}
+                        >
+                        Button Test (Go to No game)
                     </button>
 
                     <button

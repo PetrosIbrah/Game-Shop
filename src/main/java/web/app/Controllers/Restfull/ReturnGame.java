@@ -6,20 +6,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.app.Identification.Game;
+import web.app.Identification.Images;
+import web.app.Identification.Requirements;
 import web.app.Repository.GameRepository;
+import web.app.Repository.ImagesRepository;
+import web.app.Repository.RequirementsRepository;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/GamePage")
 public class ReturnGame {
     @Autowired
-    private GameRepository repo;
+    private GameRepository GameRepo;
+
+    @Autowired
+    private RequirementsRepository ReqRepo;
+
+    @Autowired
+    private ImagesRepository ImgsRepo;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/gameinfo/{id}")
     public Game getGameById(@PathVariable Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Game not found with id " + id));
+        return GameRepo.findById(id).orElseThrow(() -> new RuntimeException("Game not found with id " + id));
+    }
+
+    @GetMapping("/gamereq/{id}")
+    public Requirements getRequirementsById(@PathVariable Long id) {
+        return ReqRepo.findById(id).orElseThrow(() -> new RuntimeException("Game not found with id " + id));
+    }
+
+    @GetMapping("/gameimgs/{id}")
+    public Images getImagesById(@PathVariable Long id) {
+        return ImgsRepo.findById(id).orElseThrow(() -> new RuntimeException("Game not found with id " + id));
     }
 }

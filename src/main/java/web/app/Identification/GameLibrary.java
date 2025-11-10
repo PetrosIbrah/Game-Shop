@@ -3,6 +3,7 @@ package web.app.Identification;
 import java.util.ArrayList;
 import java.util.List;
 
+// Can be used later
 public class GameLibrary {
     private List<Game> Games;
 
