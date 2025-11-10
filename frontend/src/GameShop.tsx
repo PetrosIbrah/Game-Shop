@@ -34,10 +34,10 @@ const GameShop: React.FC = () => {
 
             <div className="platforms">
                 
-                <img className="platform-icon" src="/images/icons/steamico.png" alt="Steam" title="Steam" />
-                <img className="platform-icon" src="/images/icons/psico.png" alt="PlayStation" title="PlayStation" />
-                <img className="platform-icon" src="/images/icons/xboxico.png" alt="Xbox" title="Xbox" />
-                <img className="platform-icon" src="/images/icons/nintendoico.png" alt="Nintendo" title="Nintendo" />
+                <img className="platform-icon" src="/images/icons/steam.png" alt="Steam" title="Steam" />
+                <img className="platform-icon" src="/images/icons/playstation.png" alt="PlayStation" title="PlayStation" />
+                <img className="platform-icon" src="/images/icons/xbox.png" alt="Xbox" title="Xbox" />
+                <img className="platform-icon" src="/images/icons/nintendo.png" alt="Nintendo" title="Nintendo" />
             </div>
 
 
