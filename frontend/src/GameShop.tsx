@@ -2,12 +2,14 @@ import React from "react";
 import "./GameShop.css";
 
 const GameShop: React.FC = () => {
+
     const goToHome = () => {
         window.location.href = "/";
     };
 
     return (
         <div className="gameshop">
+
             <header className="header">
                 <button
                     className="logo"
@@ -31,44 +33,33 @@ const GameShop: React.FC = () => {
 
 
             <div className="platforms">
-                <img className="platform-icon" src="Images/Icons/steam.png" alt="Steam" title="Steam" />
-                <img className="platform-icon" src="Images/Icons/playstation.png" alt="PlayStation" title="PlayStation" />
-                <img className="platform-icon" src="Images/Icons/xbox.png" alt="Xbox" title="Xbox" />
-                <img className="platform-icon" src="Images/Icons/nintendo.png" alt="Nintendo" title="Nintendo" />
+                
+                <img className="platform-icon" src="/images/icons/steamico.png" alt="Steam" title="Steam" />
+                <img className="platform-icon" src="/images/icons/psico.png" alt="PlayStation" title="PlayStation" />
+                <img className="platform-icon" src="/images/icons/xboxico.png" alt="Xbox" title="Xbox" />
+                <img className="platform-icon" src="/images/icons/nintendoico.png" alt="Nintendo" title="Nintendo" />
             </div>
 
 
-            <section className="game-section">
 
-                <img
-                    className="game-cover"
-                    src="/Images/CoverArt/eldenring_ca.jpg"
-                    alt="Elden Ring Cover Art"
-                />
+            <section className="game-section">
+                <div className="game-cover"></div>
 
                 <div className="game-info">
-                    <h1 className="game-title">Elden Ring</h1>
+                    <h1 className="game-title">Some Game</h1>
 
                     <div className="banner">
-                        <img
-                            className="banner-placeholder"
-                            src="/Images/Background/eldenring_bg.jpg"
-                            alt="Elden Ring Background"
-                        />
-                        <div className="banner-info-box">
-                            <p>Elden Ring is an action role-playing game developed by FromSoftware and published by Bandai Namco Entertainment. Available Now!</p>
-
-                            <button className="buy-btn">Αγοράστε τώρα</button>
-                        </div>
+                        <div className="banner-placeholder"></div>
+                        <button className="buy-btn">Αγοράστε τώρα</button>
                     </div>
                 </div>
             </section>
 
 
             <section className="screenshots">
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc1.jpg" alt="Screenshot 1" />
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc2.jpg" alt="Screenshot 2" />
-                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc3.jpg" alt="Screenshot 3" />
+                <div className="screenshot-placeholder"></div>
+                <div className="screenshot-placeholder"></div>
+                <div className="screenshot-placeholder"></div>
             </section>
 
 
