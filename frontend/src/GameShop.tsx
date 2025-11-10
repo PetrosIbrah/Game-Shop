@@ -2,14 +2,14 @@ import React from "react";
 import "./GameShop.css";
 
 const GameShop: React.FC = () => {
-
+    // Function to navigate back to the root path ("/")
     const goToHome = () => {
         window.location.href = "/";
     };
 
     return (
         <div className="gameshop">
-
+            {/* HEADER */}
             <header className="header">
                 <button
                     className="logo"
@@ -31,38 +31,53 @@ const GameShop: React.FC = () => {
                 </div>
             </header>
 
-
+            {/* PLATFORM ICONS */}
             <div className="platforms">
-                
-                <img className="platform-icon" src="/images/icons/steam.png" alt="Steam" title="Steam" />
-                <img className="platform-icon" src="/images/icons/playstation.png" alt="PlayStation" title="PlayStation" />
-                <img className="platform-icon" src="/images/icons/xbox.png" alt="Xbox" title="Xbox" />
-                <img className="platform-icon" src="/images/icons/nintendo.png" alt="Nintendo" title="Nintendo" />
+                <img className="platform-icon" src="images/icons/steam.png" alt="Steam" title="Steam" />
+                <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation" title="PlayStation" />
+                <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox" title="Xbox" />
+                <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo" title="Nintendo" />
             </div>
 
-
-
+            {/* MAIN GAME SECTION */}
             <section className="game-section">
-                <div className="game-cover"></div>
+                {/* GAME COVER (Now an image) */}
+                <img
+                    className="game-cover"
+                    src="/Images/CoverArt/eldenring_ca.jpg"
+                    alt="Elden Ring Cover Art"
+                />
 
                 <div className="game-info">
-                    <h1 className="game-title">Some Game</h1>
+                    <h1 className="game-title">Elden Ring</h1>
 
                     <div className="banner">
-                        <div className="banner-placeholder"></div>
-                        <button className="buy-btn">Αγοράστε τώρα</button>
+                        {/* 1. The actual background image (positioned absolutely in CSS) */}
+                        <img
+                            className="banner-placeholder"
+                            src="/Images/Background/eldenring_bg.jpg"
+                            alt="Elden Ring Background"
+                        />
+
+                        {/* 2. The gray information overlay (positioned absolutely over the image) */}
+                        <div className="banner-info-box">
+                            <p>Elden Ring is an action role-playing game developed by FromSoftware and published by Bandai Namco Entertainment. Available Now!</p>
+
+                            <button className="buy-btn">Αγοράστε τώρα</button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-
+            {/* SCREENSHOTS */}
             <section className="screenshots">
-                <div className="screenshot-placeholder"></div>
-                <div className="screenshot-placeholder"></div>
-                <div className="screenshot-placeholder"></div>
+                {/* SCREENSHOTS (Now images) */}
+                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc1.jpg" alt="Screenshot 1" />
+                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc2.jpg" alt="Screenshot 2" />
+                <img className="screenshot-placeholder" src="/Images/Screenshots/eldenring_sc3.jpg" alt="Screenshot 3" />
             </section>
 
-
+            {/* SYSTEM REQUIREMENTS */}
             <section className="requirements">
                 <h2>SYSTEM REQUIREMENTS</h2>
                 <div className="req-columns">
