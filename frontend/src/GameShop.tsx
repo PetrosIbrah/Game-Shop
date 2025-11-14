@@ -43,6 +43,7 @@ const GameShop: React.FC = () => {
     const [images, setImages] = useState<Images | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [code, setCode] = useState<string | null>(null);
 
     useEffect(() => {
       fetch(`/api/GamePage/gameinfo/${gameId}`)
@@ -79,6 +80,20 @@ const GameShop: React.FC = () => {
 
     const goToHome = () => {
         window.location.href = "/";
+    };
+
+    const generateCode = () => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const segment = () =>
+          Array.from({ length: 5 }, () =>
+            chars[Math.floor(Math.random() * chars.length)]
+          ).join("");
+
+        return `${segment()}-${segment()}-${segment()}`;
+    };
+
+    const handleBuyButton = () => {
+        setCode(generateCode());
     };
 
     return (
@@ -138,7 +153,25 @@ const GameShop: React.FC = () => {
                         <div className="banner-info-box">
                             <p>{game?.description ?? "Description not found"}</p>
 
-                            <button className="buy-btn">Αγοράστε τώρα</button>
+
+                            <div className="purchase-row">
+                                <div className="price-box">{game?.price ?? "NULL"}$</div>
+
+                                <button className="buy-btn" onClick={handleBuyButton}>
+                                    Αγοράστε τώρα
+                                </button>
+                                    {code && (
+                                        <div className="popup-overlay">
+                                          <div className="popup-box">
+                                            <div className="popup-title">Your Activation Code</div>
+                                            <div className="popup-code">{code}</div>
+                                            <button className="popup-close-btn" onClick={() => setCode(null)}>
+                                              Close
+                                            </button>
+                                          </div>
+                                        </div>
+                                    )}
+                            </div>
                         </div>
                     </div>
                 </div>
