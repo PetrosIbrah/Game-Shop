@@ -13,12 +13,13 @@ type Game = {
 };
 
 const GameList: React.FC = () => {
+  const platform = localStorage.getItem("platform");
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/GameList")
+    fetch(`/api/GameList/Platform/${platform}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch games");
         return res.json();

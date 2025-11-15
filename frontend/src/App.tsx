@@ -61,10 +61,19 @@ function App() {
 
                     <button
                         onClick={() => {
+                            localStorage.setItem("platform", "PC");
                             window.location.href = "/GameList";
                         }}
                     >
-                        Button 2
+                        Button 2 (PC)
+                    </button>
+                    <button
+                        onClick={() => {
+                            localStorage.setItem("platform", "PlayStation 5");
+                            window.location.href = "/GameList";
+                        }}
+                    >
+                        Button 2 (Playstastion)
                     </button>
                 </div>
             </header>
