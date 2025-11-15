@@ -2,13 +2,12 @@ package web.app.Identification;
 
 import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
-import web.app.Repository.GameRepository;
-import web.app.Repository.ImagesRepository;
-import web.app.Repository.RequirementsRepository;
+import web.app.Repositories.GameRepository;
+import web.app.Repositories.ImagesRepository;
+import web.app.Repositories.RequirementsRepository;
 
 @Component
 public class DataLoader {
-
     private final GameRepository GamesRepo;
     private final RequirementsRepository RequirementsRepo;
     private final ImagesRepository ImagesRepo;

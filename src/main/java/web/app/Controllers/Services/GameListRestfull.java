@@ -1,19 +1,17 @@
-package web.app.Controllers.Restfull;
+package web.app.Controllers.Services;
 
-import org.springframework.data.jdbc.core.JdbcAggregateOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import web.app.Identification.Game;
 import web.app.Identification.Images;
-import web.app.Repository.GameRepository;
-import web.app.Repository.ImagesRepository;
-
+import web.app.Repositories.GameRepository;
+import web.app.Repositories.ImagesRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/GameList")
+@RequestMapping("/api/Games")
 public class GameListRestfull {
 
     @Autowired

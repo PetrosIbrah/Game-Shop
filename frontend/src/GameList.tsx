@@ -19,7 +19,7 @@ const GameList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/GameList/Platform/${platform}`)
+    fetch(`/api/Games/Platform/${platform}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch games");
         return res.json();

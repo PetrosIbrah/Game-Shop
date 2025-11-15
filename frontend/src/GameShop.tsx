@@ -46,36 +46,18 @@ const GameShop: React.FC = () => {
     const [code, setCode] = useState<string | null>(null);
 
     useEffect(() => {
-      fetch(`/api/GamePage/gameinfo/${gameId}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch game");
-          return res.json();
-        })
-        .then((data) => setGame(data))
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
-    }, []);
-
-    useEffect(() => {
-      fetch(`/api/GamePage/gamereq/${gameId}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch game");
-          return res.json();
-        })
-        .then((data) => setRequirements(data))
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
-    }, []);
-
-    useEffect(() => {
-      fetch(`/api/GamePage/gameimgs/${gameId}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch game");
-          return res.json();
-        })
-        .then((data) => setImages(data))
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
+        Promise.all([
+            fetch(`/api/GamePage/gameinfo/${gameId}`).then(r => r.json()),
+            fetch(`/api/GamePage/gamereq/${gameId}`).then(r => r.json()),
+            fetch(`/api/GamePage/gameimgs/${gameId}`).then(r => r.json())
+        ])
+            .then(([gamedata, reqdata, imgdata]) => {
+                setGame(gamedata);
+                setRequirements(reqdata);
+                setImages(imgdata);
+            })
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
     }, []);
 
     const goToHome = () => {

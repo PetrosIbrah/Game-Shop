@@ -1,4 +1,4 @@
-package web.app.Controllers.Restfull;
+package web.app.Controllers.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import web.app.Identification.Game;
 import web.app.Identification.Images;
 import web.app.Identification.Requirements;
-import web.app.Repository.GameRepository;
-import web.app.Repository.ImagesRepository;
-import web.app.Repository.RequirementsRepository;
-
+import web.app.Repositories.GameRepository;
+import web.app.Repositories.ImagesRepository;
+import web.app.Repositories.RequirementsRepository;
 
 @RestController
 @RequestMapping("/api/GamePage")

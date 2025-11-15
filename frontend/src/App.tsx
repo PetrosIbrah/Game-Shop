@@ -62,7 +62,7 @@ function App() {
                     <button
                         onClick={() => {
                             localStorage.setItem("platform", "PC");
-                            window.location.href = "/GameList";
+                            window.location.href = "/api/redirect-to-gamelist";
                         }}
                     >
                         Button 2 (PC)

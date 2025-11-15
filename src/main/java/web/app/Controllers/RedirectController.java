@@ -13,4 +13,13 @@ public class RedirectController {
                 .header("Location", "/games")
                 .build();
     }
+
+    @GetMapping("/api/redirect-to-gamelist")
+    public ResponseEntity<Void> redirectToGameList() {
+        return ResponseEntity.status(302)
+                .header("Location", "/GameList")
+                .build();
+    }
+
+
 }

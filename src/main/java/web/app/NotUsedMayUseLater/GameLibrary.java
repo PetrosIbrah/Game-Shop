@@ -1,10 +1,8 @@
-package web.app.Identification;
-
-import java.util.ArrayList;
-import java.util.List;
+package web.app.NotUsedMayUseLater;
 
 // Can be used later
 public class GameLibrary {
+    /*
     private List<Game> Games;
 
     public GameLibrary(List<Game> games) {
@@ -61,4 +59,6 @@ public class GameLibrary {
 
         return filteredGames;
     }
+
+     */
 }
