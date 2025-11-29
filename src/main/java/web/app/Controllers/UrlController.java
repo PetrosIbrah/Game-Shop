@@ -22,6 +22,11 @@ public class UrlController {
         return "forward:/index.html";
     }
 
+    @GetMapping("/GamesMainPage")
+    public String GamesMainPage() {
+        return "forward:/index.html";
+    }
+
     @RequestMapping(value = "/{path:[^\\.]*}")
     public String forward() {
         return "redirect:/";

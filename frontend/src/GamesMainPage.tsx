@@ -7,8 +7,12 @@ type GameListItem = {
   price: number;
   developer: string;
   gameTag: string;
-  cover: string;
 };
+
+// type Images = {
+//   cover: string;
+//
+// }
 
 const GamesMainPage: React.FC = () => {
   const [games, setGames] = useState<GameListItem[]>([]);
@@ -17,7 +21,7 @@ const GamesMainPage: React.FC = () => {
 
   // --- Fetch Data ---
   useEffect(() => {
-    fetch("/api/GamePage/allgames")
+    fetch("/api/Games/all")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load games");
         return res.json();
@@ -48,7 +52,6 @@ const GamesMainPage: React.FC = () => {
 
   return (
     <div className="gameshop-main">
-      {/* --- HEADER (Copied from your design) --- */}
       <header className="header">
         <button
           className="logo"
@@ -90,9 +93,9 @@ const GamesMainPage: React.FC = () => {
             >
               <div className="image-container">
                 <img
-                  src={game.cover || "/Images/Notfound.jpg"}
-                  alt={game.gameName}
-                  className="card-cover"
+                    className="game-cover"
+                    src={"/Images/Notfound.jpg"}
+                    alt="Cover Art"
                 />
               </div>
 
