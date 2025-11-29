@@ -1,4 +1,5 @@
 package web.app.Repositories;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import web.app.Identification.Game;
 import java.util.List;

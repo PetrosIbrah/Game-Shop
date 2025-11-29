@@ -25,6 +25,11 @@ public class GameListRestfull {
         return GameRepo.findAll();
     }
 
+    @GetMapping("/all/Images")
+    public List<Images> getAllImages() {
+        return ImgsRepo.findAll();
+    }
+
     @GetMapping("/Platform/{p}")
     public List<Game> getGamePlatform(@PathVariable String p) {
         return GameRepo.findByPlatform(p);

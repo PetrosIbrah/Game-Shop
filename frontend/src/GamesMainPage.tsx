@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./GamesMainPage.css";
 
 type GameListItem = {
-  id: number;
-  gameName: string;
-  price: number;
-  developer: string;
-  gameTag: string;
+    id: number;
+    gameName: string;
+    price: number;
+    developer: string;
+    gameTag: string;
 };
 
-// type Images = {
-//   cover: string;
-//
-// }
+type Images = {
+    cover: string;
+
+}
 
 const GamesMainPage: React.FC = () => {
   const [games, setGames] = useState<GameListItem[]>([]);
