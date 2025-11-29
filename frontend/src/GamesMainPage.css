@@ -1,4 +1,4 @@
-/* --- CORE STYLES (Based on your GameShop.css) --- */
+
 .gameshop-main {
     background-color: #0e0e0e;
     color: #fff;
@@ -6,7 +6,7 @@
     min-height: 100vh;
 }
 
-/* --- HEADER SECTION --- */
+
 .header {
     display: flex;
     align-items: center;
@@ -49,7 +49,7 @@
 .user-area button { background: none; border: none; color: #ccc; cursor: pointer; font-size: 0.9rem; }
 .user-area button:hover { color: #fff; }
 
-/* --- PLATFORMS --- */
+
 .platforms {
     display: flex;
     justify-content: center;
@@ -69,7 +69,7 @@
 }
 .platform-icon:hover { opacity: 1; }
 
-/* --- MAIN CONTENT & GRID --- */
+
 .main-content {
     padding: 20px 40px 60px 40px;
     max-width: 1600px;
@@ -86,14 +86,12 @@
 
 .games-grid {
     display: grid;
-    /* Responsive grid: columns min 240px wide */
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
 }
 
-/* --- GAME CARD STYLING --- */
 .game-card {
-    background-color: #181818; /* Matches your requirements box */
+    background-color: #181818;
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
@@ -111,7 +109,6 @@
 
 .image-container {
     width: 100%;
-    /* Aspect ratio for cover art (2:3) */
     aspect-ratio: 2 / 3;
     overflow: hidden;
 }
@@ -124,7 +121,7 @@
 }
 
 .game-card:hover .card-cover {
-    transform: scale(1.05); /* Slight zoom on hover */
+    transform: scale(1.05);
 }
 
 .card-info {
@@ -175,7 +172,7 @@
     border-radius: 6px;
 }
 
-/* --- LOADING / ERROR --- */
+
 .status-msg {
     color: white;
     text-align: center;
