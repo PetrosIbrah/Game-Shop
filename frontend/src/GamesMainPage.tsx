@@ -89,9 +89,9 @@ const GamesMainPage: React.FC = () => {
                 >
                 <div className="image-container">
                     <img
-                        className="card-cover"
-                        src={matchingImage?.cover ?? "/Images/Notfound.jpg"}
-                        alt={"/Images/Notfound.jpg"}
+                      className="card-cover"
+                      src={matchingImage?.cover ?? "/Images/Notfound.jpg"}
+                      onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                     />
                 </div>
 

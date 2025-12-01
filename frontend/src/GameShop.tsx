@@ -119,7 +119,7 @@ const GameShop: React.FC = () => {
                 <img
                     className="game-cover"
                     src={images?.cover ?? "/Images/Notfound.jpg"}
-                    alt="Cover Art"
+                    onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                 />
 
                 <div className="game-info">
@@ -129,7 +129,7 @@ const GameShop: React.FC = () => {
                         <img
                             className="banner-placeholder"
                             src={images?.background ?? "/Images/Notfound.jpg"}
-                            alt="Background"
+                            onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                         />
 
                         <div className="banner-info-box">
@@ -161,12 +161,12 @@ const GameShop: React.FC = () => {
 
             {/* In Game Screen shots */}
             <section className="screenshots">
-                <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} alt="Screenshot 1"
+                <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                 />
-                <img className="screenshot-placeholder" src={images?.screenshot2 ?? "/Images/Notfound.jpg"} alt="Screenshot 2"
+                <img className="screenshot-placeholder" src={images?.screenshot2 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                 />
 
-                <img className="screenshot-placeholder" src={images?.screenshot3 ?? "/Images/Notfound.jpg"} alt="Screenshot 3"
+                <img className="screenshot-placeholder" src={images?.screenshot3 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                 />
             </section>
 
