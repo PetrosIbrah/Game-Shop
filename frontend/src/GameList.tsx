@@ -13,7 +13,7 @@ type Game = {
 };
 
 const GameList: React.FC = () => {
-  const platform = localStorage.getItem("platform");
+  const platform = localStorage.getItem("plaftorm");
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

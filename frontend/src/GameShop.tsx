@@ -61,7 +61,13 @@ const GameShop: React.FC = () => {
     }, []);
 
     const goToHome = () => {
-        window.location.href = "/";
+        window.location.href = "/GamesMainPage";
+    };
+
+    const handlePlatformClick = (platformName: string) => {
+        // Optional: Save platform to localStorage if you want to implement persistence later
+        localStorage.setItem("platform", platformName);
+        window.location.href = "/GamesMainPage";
     };
 
     const generateCode = () => {
@@ -80,8 +86,6 @@ const GameShop: React.FC = () => {
 
     return (
         <div className="gameshop">
-            {/* MENU */}
-            {/* =================== */}
             <header className="header">
                 <button
                     className="logo"
@@ -103,50 +107,54 @@ const GameShop: React.FC = () => {
                 </div>
             </header>
 
-            {/* Platform icons */}
             <div className="platforms">
-                <img className="platform-icon" src="images/icons/steam.png" alt="Steam" title="Steam" />
-                <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation" title="PlayStation" />
-                <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox" title="Xbox" />
-                <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo" title="Nintendo" />
+                <img className="platform-icon" src="images/icons/steam.png" alt="PC"
+                     onClick={() => handlePlatformClick("PC")}
+                />
+                <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation 5"
+                     onClick={() => handlePlatformClick("PlayStation 5")}
+                />
+                <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox Series X"
+                     onClick={() => handlePlatformClick("Xbox Series X")}
+                />
+                <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo Switch"
+                     onClick={() => handlePlatformClick("Nintendo Switch")}
+                />
             </div>
+
             <div className="tags">
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
                          <span className="tag-name">Fighting</span>
                      </div>
 
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
                          <span className="tag-name">Racing</span>
                      </div>
 
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
                          <span className="tag-name">RPG</span>
                      </div>
 
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
                          <span className="tag-name">Shooter</span>
                      </div>
 
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
                          <span className="tag-name">Sports</span>
                      </div>
 
-                     <div className="tag-item">
+                     <div className="tag-item" onClick={goToHome}>
                          <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
                          <span className="tag-name">Survival</span>
                      </div>
-                 </div>
-            {/* END MENU =================== */}
+            </div>
 
-
-            {/* MAIN GAME SECTION */}
             <section className="game-section">
-                {/* Game cover */}
                 <img
                     className="game-cover"
                     src={images?.cover ?? "/Images/Notfound.jpg"}
@@ -166,9 +174,8 @@ const GameShop: React.FC = () => {
                         <div className="banner-info-box">
                             <p>{game?.description ?? "Description not found"}</p>
 
-
                             <div className="purchase-row">
-                                <div className="price-box">{game?.price ?? "NULL"}$</div>
+                                <div className="price-box">{game?.price === 0 ? "FREE" : `${game?.price}$`}</div>
 
                                 <button className="buy-btn" onClick={handleBuyButton}>
                                     Αγοράστε τώρα
@@ -190,7 +197,6 @@ const GameShop: React.FC = () => {
                 </div>
             </section>
 
-            {/* In Game Screen shots */}
             <section className="screenshots">
                 <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
                 />
@@ -201,28 +207,27 @@ const GameShop: React.FC = () => {
                 />
             </section>
 
-            {/* System Requirements */}
             <section className="requirements">
                 <h2>SYSTEM REQUIREMENTS</h2>
                 <div className="req-columns">
                     <div className="req-block">
                         <h3>MINIMUM:</h3>
                         <ul>
-                            <li>OS: {requirements?.minos ?? "N/AA"}</li>
-                            <li>Processor: {requirements?.minprocessor ?? "N/AA"}</li>
-                            <li>Memory: {requirements?.minmemory ?? "N/AA"}</li>
-                            <li>Graphics: {requirements?.mingraphics ?? "N/AA"}</li>
-                            <li>Storage: {requirements?.minstorage ?? "N/AA"}</li>
+                            <li>OS: {requirements?.minos ?? "N/A"}</li>
+                            <li>Processor: {requirements?.minprocessor ?? "N/A"}</li>
+                            <li>Memory: {requirements?.minmemory ?? "N/A"}</li>
+                            <li>Graphics: {requirements?.mingraphics ?? "N/A"}</li>
+                            <li>Storage: {requirements?.minstorage ?? "N/A"}</li>
                         </ul>
                     </div>
                     <div className="req-block">
                         <h3>RECOMMENDED:</h3>
                         <ul>
-                            <li>OS: {requirements?.recos ?? "N/AA"}</li>
-                            <li>Processor: {requirements?.recprocessor ?? "N/AA"}</li>
-                            <li>Memory: {requirements?.recmemory ?? "N/AA"}</li>
-                            <li>Graphics: {requirements?.recgraphics ?? "N/AA"}</li>
-                            <li>Storage: {requirements?.recstorage ?? "N/AA"}</li>
+                            <li>OS: {requirements?.recos ?? "N/A"}</li>
+                            <li>Processor: {requirements?.recprocessor ?? "N/A"}</li>
+                            <li>Memory: {requirements?.recmemory ?? "N/A"}</li>
+                            <li>Graphics: {requirements?.recgraphics ?? "N/A"}</li>
+                            <li>Storage: {requirements?.recstorage ?? "N/A"}</li>
                         </ul>
                     </div>
                 </div>

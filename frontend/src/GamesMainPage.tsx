@@ -20,9 +20,21 @@ const GamesMainPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // 1. FIX: Initialize state by reading LocalStorage.
+  // If "platform" was saved by GameShop.tsx, we load it here immediately.
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
+      localStorage.getItem("platform")
+  );
+
   useEffect(() => {
+    setLoading(true);
+
+    const gamesApiUrl = selectedPlatform
+            ? `/api/Games/Platform/${selectedPlatform}`
+            : "/api/Games/all";
+
     Promise.all([
-        fetch("/api/Games/all").then(r => {
+        fetch(gamesApiUrl).then(r => {
             if (!r.ok) throw new Error("Failed to load games");
             return r.json();
         }),
@@ -37,7 +49,7 @@ const GamesMainPage: React.FC = () => {
     })
     .catch(err => setError(err instanceof Error ? err.message : "An error occurred"))
     .finally(() => setLoading(false));
-  }, []);
+  }, [selectedPlatform]);
 
   const handleGameClick = (gameId: number) => {
     localStorage.setItem("gameId", gameId.toString());
@@ -45,7 +57,15 @@ const GamesMainPage: React.FC = () => {
   };
 
   const goToHome = () => {
-    window.location.href = "/";
+    // 2. FIX: Clear storage so the logo resets to "All Games"
+    localStorage.removeItem("platform");
+    setSelectedPlatform(null);
+  };
+
+  const handlePlatformClick = (platformName: string) => {
+      // 3. FIX: Save to storage so it persists if the user refreshes
+      localStorage.setItem("platform", platformName);
+      setSelectedPlatform(platformName);
   };
 
   if (loading) return <div className="status-msg">Loading Library...</div>;
@@ -69,10 +89,18 @@ const GamesMainPage: React.FC = () => {
       </header>
 
       <div className="platforms">
-        <img className="platform-icon" src="images/icons/steam.png" alt="Steam" />
-        <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation" />
-        <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox" />
-        <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo" />
+        <img className="platform-icon" src="images/icons/steam.png" alt="PC"
+            onClick={() => handlePlatformClick("PC")}
+        />
+        <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation 5"
+            onClick={() => handlePlatformClick("PlayStation 5")}
+        />
+        <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox Series X"
+            onClick={() => handlePlatformClick("Xbox Series X")}
+        />
+        <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo Switch"
+            onClick={() => handlePlatformClick("Nintendo Switch")}
+        />
       </div>
 
      <div className="tags">
@@ -108,7 +136,9 @@ const GamesMainPage: React.FC = () => {
      </div>
 
       <div className="main-content">
-        <h2 className="section-title">ALL GAMES</h2>
+        <h2 className="section-title">
+            {selectedPlatform ? `${selectedPlatform.toUpperCase()} GAMES` : "ALL GAMES"}
+        </h2>
 
         <div className="games-grid">
           {games.map((game) => {
@@ -124,6 +154,7 @@ const GamesMainPage: React.FC = () => {
                       className="card-cover"
                       src={matchingImage?.cover ?? "/Images/Notfound.jpg"}
                       onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
+                      alt={game.gameName}
                     />
                 </div>
 
