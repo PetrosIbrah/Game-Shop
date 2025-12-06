@@ -71,7 +71,7 @@
 .platforms {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     margin: 20px 0;
 }
 
@@ -88,6 +88,45 @@
 .platform-icon:hover {
     opacity: 1;
 }
+
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin: 20px 0;
+    padding-top: 20px;
+}
+
+.tag-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    width: 80px;
+}
+
+.tag-item:hover {
+    opacity: 1;
+}
+
+.tags-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+.tag-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
 
 .game-section {
     display: flex;

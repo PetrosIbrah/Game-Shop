@@ -1,11 +1,9 @@
-
 .gameshop-main {
     background-color: #0e0e0e;
     color: #fff;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
 }
-
 
 .header {
     display: flex;
@@ -49,11 +47,10 @@
 .user-area button { background: none; border: none; color: #ccc; cursor: pointer; font-size: 0.9rem; }
 .user-area button:hover { color: #fff; }
 
-
 .platforms {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     margin: 20px 0;
     padding-top: 20px;
 }
@@ -63,12 +60,49 @@
     height: 50px;
     border-radius: 10px;
     object-fit: cover;
-    opacity: 0.6;
+    opacity: 0.8;
     cursor: pointer;
     transition: opacity 0.2s;
 }
 .platform-icon:hover { opacity: 1; }
 
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin: 20px 0;
+    padding-top: 20px;
+}
+
+.tag-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    width: 80px;
+}
+
+.tag-item:hover {
+    opacity: 1;
+}
+
+.tags-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+.tag-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
 
 .main-content {
     padding: 20px 40px 60px 40px;
@@ -171,7 +205,6 @@
     font-weight: bold;
     border-radius: 6px;
 }
-
 
 .status-msg {
     color: white;

@@ -75,6 +75,38 @@ const GamesMainPage: React.FC = () => {
         <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo" />
       </div>
 
+     <div className="tags">
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
+             <span className="tag-name">Fighting</span>
+         </div>
+
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
+             <span className="tag-name">Racing</span>
+         </div>
+
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
+             <span className="tag-name">RPG</span>
+         </div>
+
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
+             <span className="tag-name">Shooter</span>
+         </div>
+
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
+             <span className="tag-name">Sports</span>
+         </div>
+
+         <div className="tag-item">
+             <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
+             <span className="tag-name">Survival</span>
+         </div>
+     </div>
+
       <div className="main-content">
         <h2 className="section-title">ALL GAMES</h2>
 
