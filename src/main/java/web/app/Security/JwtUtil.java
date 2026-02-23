@@ -1,0 +1,50 @@
+package web.app.Security;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
+
+@Component
+public class JwtUtil {
+
+
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+
+    private final int jwtExpirationMs = 86400000;
+
+
+    public String generateJwtToken(Authentication authentication) {
+        org.springframework.security.core.userdetails.User userPrincipal =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        return Jwts.builder()
+                .setSubject((userPrincipal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(key)
+                .compact();
+    }
+
+
+    public String getUserNameFromJwtToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().getSubject();
+    }
+
+
+    public boolean validateJwtToken(String authToken) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Μη έγκυρο JWT Token: " + e.getMessage());
+        }
+        return false;
+    }
+}

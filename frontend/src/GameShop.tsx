@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./GameShop.css";
+import AuthService from "./AuthService";
 
 type Game = {
   id: number;
@@ -33,7 +34,7 @@ type Images = {
   screenshot1: string;
   screenshot2: string;
   screenshot3: string;
-}
+};
 
 const GameShop: React.FC = () => {
     const gameId = localStorage.getItem("gameId");
@@ -44,6 +45,21 @@ const GameShop: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [code, setCode] = useState<string | null>(null);
+
+    //Authentication
+    const [currentUser, setCurrentUser] = useState<any>(AuthService.getCurrentUser());
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const [authMessage, setAuthMessage] = useState("");
+
+    //Login
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    //Register
+    const [regUsername, setRegUsername] = useState("");
+    const [regEmail, setRegEmail] = useState("");
+    const [regPassword, setRegPassword] = useState("");
 
     useEffect(() => {
         Promise.all([
@@ -65,7 +81,6 @@ const GameShop: React.FC = () => {
     };
 
     const handlePlatformClick = (platformName: string) => {
-        // Optional: Save platform to localStorage if you want to implement persistence later
         localStorage.setItem("platform", platformName);
         window.location.href = "/GamesMainPage";
     };
@@ -81,7 +96,45 @@ const GameShop: React.FC = () => {
     };
 
     const handleBuyButton = () => {
+        if (!currentUser) {
+            alert("Πρέπει να συνδεθείτε για να κάνετε αγορά!");
+            setShowLogin(true);
+            return;
+        }
         setCode(generateCode());
+    };
+
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const data = await AuthService.login(username, password);
+            setCurrentUser(data);
+            setShowLogin(false);
+            setAuthMessage("");
+        } catch (err: any) {
+            setAuthMessage(err.message);
+        }
+    };
+
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await AuthService.register(regUsername, regEmail, regPassword);
+            setAuthMessage("Η εγγραφή πέτυχε! Τώρα μπορείτε να συνδεθείτε.");
+            setTimeout(() => {
+                setShowRegister(false);
+                setShowLogin(true);
+                setAuthMessage("");
+            }, 2000);
+        } catch (err: any) {
+            setAuthMessage(err.message);
+        }
+    };
+
+    const handleLogout = () => {
+        AuthService.logout();
+        setCurrentUser(null);
     };
 
     return (
@@ -100,10 +153,23 @@ const GameShop: React.FC = () => {
                     <input type="text" placeholder="Search games..." />
                 </div>
 
+
                 <div className="user-area">
-                    <button>Sign Up</button>
-                    <span>|</span>
-                    <button>Sign In</button>
+                    {currentUser ? (
+                        <>
+                            <span style={{ color: "white", marginRight: "10px" }}>
+                                Welcome, <b>{currentUser.username}</b>!
+                            </span>
+                            <span>|</span>
+                            <button onClick={handleLogout}>Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => { setShowRegister(true); setAuthMessage(""); }}>Sign Up</button>
+                            <span>|</span>
+                            <button onClick={() => { setShowLogin(true); setAuthMessage(""); }}>Sign In</button>
+                        </>
+                    )}
                 </div>
             </header>
 
@@ -123,35 +189,30 @@ const GameShop: React.FC = () => {
             </div>
 
             <div className="tags">
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
-                         <span className="tag-name">Fighting</span>
-                     </div>
-
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
-                         <span className="tag-name">Racing</span>
-                     </div>
-
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
-                         <span className="tag-name">RPG</span>
-                     </div>
-
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
-                         <span className="tag-name">Shooter</span>
-                     </div>
-
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
-                         <span className="tag-name">Sports</span>
-                     </div>
-
-                     <div className="tag-item" onClick={goToHome}>
-                         <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
-                         <span className="tag-name">Survival</span>
-                     </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
+                    <span className="tag-name">Fighting</span>
+                </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
+                    <span className="tag-name">Racing</span>
+                </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
+                    <span className="tag-name">RPG</span>
+                </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
+                    <span className="tag-name">Shooter</span>
+                </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
+                    <span className="tag-name">Sports</span>
+                </div>
+                <div className="tag-item" onClick={goToHome}>
+                    <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
+                    <span className="tag-name">Survival</span>
+                </div>
             </div>
 
             <section className="game-section">
@@ -180,17 +241,18 @@ const GameShop: React.FC = () => {
                                 <button className="buy-btn" onClick={handleBuyButton}>
                                     Αγοράστε τώρα
                                 </button>
-                                    {code && (
-                                        <div className="popup-overlay">
-                                          <div className="popup-box">
+
+                                {code && (
+                                    <div className="popup-overlay">
+                                        <div className="popup-box">
                                             <div className="popup-title">Your Activation Code</div>
                                             <div className="popup-code">{code}</div>
                                             <button className="popup-close-btn" onClick={() => setCode(null)}>
-                                              Close
+                                                Close
                                             </button>
-                                          </div>
                                         </div>
-                                    )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -198,13 +260,9 @@ const GameShop: React.FC = () => {
             </section>
 
             <section className="screenshots">
-                <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
-                />
-                <img className="screenshot-placeholder" src={images?.screenshot2 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
-                />
-
-                <img className="screenshot-placeholder" src={images?.screenshot3 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")}
-                />
+                <img className="screenshot-placeholder" src={images?.screenshot1 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")} />
+                <img className="screenshot-placeholder" src={images?.screenshot2 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")} />
+                <img className="screenshot-placeholder" src={images?.screenshot3 ?? "/Images/Notfound.jpg"} onError={(e) => (e.currentTarget.src = "/Images/Notfound.jpg")} />
             </section>
 
             <section className="requirements">
@@ -232,6 +290,38 @@ const GameShop: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+
+            {showLogin && (
+                <div className="popup-overlay">
+                    <div className="popup-box">
+                        <div className="popup-title">Sign In</div>
+                        <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "10px", margin: "20px 0" }}>
+                            <input type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} className="auth-input" />
+                            <input type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} className="auth-input" />
+                            {authMessage && <p style={{ color: "red", fontSize: "14px", margin: 0 }}>{authMessage}</p>}
+                            <button type="submit" className="buy-btn" style={{ marginTop: "10px" }}>Login</button>
+                        </form>
+                        <button className="popup-close-btn" onClick={() => setShowLogin(false)}>Close</button>
+                    </div>
+                </div>
+            )}
+
+            {showRegister && (
+                <div className="popup-overlay">
+                    <div className="popup-box">
+                        <div className="popup-title">Sign Up</div>
+                        <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: "10px", margin: "20px 0" }}>
+                            <input type="text" placeholder="Username" required value={regUsername} onChange={e => setRegUsername(e.target.value)} className="auth-input" />
+                            <input type="email" placeholder="Email" required value={regEmail} onChange={e => setRegEmail(e.target.value)} className="auth-input" />
+                            <input type="password" placeholder="Password" required value={regPassword} onChange={e => setRegPassword(e.target.value)} className="auth-input" />
+                            {authMessage && <p style={{ color: authMessage.includes("πέτυχε") ? "green" : "red", fontSize: "14px", margin: 0 }}>{authMessage}</p>}
+                            <button type="submit" className="buy-btn" style={{ marginTop: "10px" }}>Register</button>
+                        </form>
+                        <button className="popup-close-btn" onClick={() => setShowRegister(false)}>Close</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
