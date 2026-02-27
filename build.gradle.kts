@@ -39,7 +39,7 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
 
     implementation("com.mysql:mysql-connector-j:9.4.0")
-
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }
 
