@@ -20,18 +20,23 @@ const GamesMainPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 1. FIX: Initialize state by reading LocalStorage.
-  // If "platform" was saved by GameShop.tsx, we load it here immediately.
+
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
       localStorage.getItem("platform")
+  );
+  const [selectedTag, setSelectedTag] = useState<string | null>(
+      localStorage.getItem("gameTag")
   );
 
   useEffect(() => {
     setLoading(true);
 
-    const gamesApiUrl = selectedPlatform
-            ? `/api/Games/Platform/${selectedPlatform}`
-            : "/api/Games/all";
+    let gamesApiUrl = "/api/Games/all";
+    if (selectedPlatform) {
+        gamesApiUrl = `/api/Games/Platform/${selectedPlatform}`;
+    } else if (selectedTag) {
+        gamesApiUrl = `/api/Games/GameTag/${selectedTag}`;
+    }
 
     Promise.all([
         fetch(gamesApiUrl).then(r => {
@@ -49,7 +54,7 @@ const GamesMainPage: React.FC = () => {
     })
     .catch(err => setError(err instanceof Error ? err.message : "An error occurred"))
     .finally(() => setLoading(false));
-  }, [selectedPlatform]);
+  }, [selectedPlatform, selectedTag]);
 
   const handleGameClick = (gameId: number) => {
     localStorage.setItem("gameId", gameId.toString());
@@ -57,15 +62,26 @@ const GamesMainPage: React.FC = () => {
   };
 
   const goToHome = () => {
-    // 2. FIX: Clear storage so the logo resets to "All Games"
     localStorage.removeItem("platform");
     setSelectedPlatform(null);
+    localStorage.removeItem("gameTag");
+    setSelectedTag(null);
   };
 
   const handlePlatformClick = (platformName: string) => {
-      // 3. FIX: Save to storage so it persists if the user refreshes
       localStorage.setItem("platform", platformName);
       setSelectedPlatform(platformName);
+
+      localStorage.removeItem("gameTag");
+      setSelectedTag(null);
+  };
+
+  const handleTagClick = (tagName: string) => {
+      localStorage.setItem("gameTag", tagName);
+      setSelectedTag(tagName);
+
+      localStorage.removeItem("platform");
+      setSelectedPlatform(null);
   };
 
   if (loading) return <div className="status-msg">Loading Library...</div>;
@@ -104,32 +120,32 @@ const GamesMainPage: React.FC = () => {
       </div>
 
      <div className="tags">
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("Fighting")}>
              <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
              <span className="tag-name">Fighting</span>
          </div>
 
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("Racing")}>
              <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
              <span className="tag-name">Racing</span>
          </div>
 
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("RPG")}>
              <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
              <span className="tag-name">RPG</span>
          </div>
 
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("Shooter")}>
              <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
              <span className="tag-name">Shooter</span>
          </div>
 
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("Sports")}>
              <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
              <span className="tag-name">Sports</span>
          </div>
 
-         <div className="tag-item">
+         <div className="tag-item" onClick={() => handleTagClick("Survival")}>
              <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
              <span className="tag-name">Survival</span>
          </div>
@@ -137,7 +153,11 @@ const GamesMainPage: React.FC = () => {
 
       <div className="main-content">
         <h2 className="section-title">
-            {selectedPlatform ? `${selectedPlatform.toUpperCase()} GAMES` : "ALL GAMES"}
+            {selectedPlatform
+                ? `${selectedPlatform.toUpperCase()} GAMES`
+                : selectedTag
+                    ? `${selectedTag.toUpperCase()} GAMES`
+                    : "ALL GAMES"}
         </h2>
 
         <div className="games-grid">
