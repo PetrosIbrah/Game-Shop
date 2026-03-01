@@ -45,12 +45,20 @@ const GameShop: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [code, setCode] = useState<string | null>(null);
+    const [localSearch, setLocalSearch] = useState("");
+    const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && localSearch.trim() !== "") {
+            localStorage.setItem("pendingSearch", localSearch);
+            window.location.href = "/";
+        }
+    };
 
     //Authentication
     const [currentUser, setCurrentUser] = useState<any>(AuthService.getCurrentUser());
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [authMessage, setAuthMessage] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
     //Login
     const [username, setUsername] = useState("");
@@ -76,13 +84,27 @@ const GameShop: React.FC = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    useEffect(() => {
+        const pending = localStorage.getItem("pendingSearch");
+        if (pending) {
+            setSearchQuery(pending);
+            localStorage.removeItem("pendingSearch");
+        }
+    }, []);
+
     const goToHome = () => {
-        window.location.href = "/GamesMainPage";
+        window.location.href = "/";
     };
 
     const handlePlatformClick = (platformName: string) => {
         localStorage.setItem("platform", platformName);
-        window.location.href = "/GamesMainPage";
+        window.location.href = "/";
+    };
+
+    const handleTagClick = (tagName: string) => {
+        localStorage.setItem("gameTag", tagName);
+        localStorage.removeItem("platform");
+        window.location.href = "/";
     };
 
     const generateCode = () => {
@@ -150,7 +172,13 @@ const GameShop: React.FC = () => {
                 </button>
 
                 <div className="search-bar">
-                    <input type="text" placeholder="Search games..." />
+                    <input
+                            type="text"
+                            placeholder="Search games..."
+                            value={localSearch}
+                            onChange={(e) => setLocalSearch(e.target.value)}
+                            onKeyDown={handleSearchSubmit}
+                        />
                 </div>
 
 
@@ -189,27 +217,27 @@ const GameShop: React.FC = () => {
             </div>
 
             <div className="tags">
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("Fighting")}>
                     <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
                     <span className="tag-name">Fighting</span>
                 </div>
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("Racing")}>
                     <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
                     <span className="tag-name">Racing</span>
                 </div>
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("RPG")}>
                     <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
                     <span className="tag-name">RPG</span>
                 </div>
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("Shooter")}>
                     <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
                     <span className="tag-name">Shooter</span>
                 </div>
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("Sports")}>
                     <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
                     <span className="tag-name">Sports</span>
                 </div>
-                <div className="tag-item" onClick={goToHome}>
+                <div className="tag-item" onClick={() => handleTagClick("Survival")}>
                     <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
                     <span className="tag-name">Survival</span>
                 </div>

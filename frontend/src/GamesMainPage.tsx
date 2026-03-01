@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./GamesMainPage.css";
+import AuthService from "./AuthService";
 
 type GameListItem = {
     id: number;
@@ -19,6 +20,12 @@ const GamesMainPage: React.FC = () => {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [localSearch, setLocalSearch] = useState("");
+
+  const filteredGames = games.filter((game) =>
+    game.gameName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
 
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
@@ -27,6 +34,54 @@ const GamesMainPage: React.FC = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(
       localStorage.getItem("gameTag")
   );
+
+  // Authentication
+  const [currentUser, setCurrentUser] = useState<any>(AuthService.getCurrentUser());
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [authMessage, setAuthMessage] = useState("");
+
+  // Login
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Register
+  const [regUsername, setRegUsername] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+          const data = await AuthService.login(username, password);
+          setCurrentUser(data);
+          setShowLogin(false);
+          setAuthMessage("");
+      } catch (err: any) {
+          setAuthMessage(err.message);
+      }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+          await AuthService.register(regUsername, regEmail, regPassword);
+          setAuthMessage("Success! Now you can sign in.");
+          setTimeout(() => {
+              setShowRegister(false);
+              setShowLogin(true);
+              setAuthMessage("");
+          }, 2000);
+      } catch (err: any) {
+          setAuthMessage(err.message);
+      }
+  };
+
+  const handleLogout = () => {
+      AuthService.logout();
+      setCurrentUser(null);
+  };
+
 
   useEffect(() => {
     setLoading(true);
@@ -95,12 +150,34 @@ const GamesMainPage: React.FC = () => {
           <span className="logo-gray">SHOP</span>
         </button>
         <div className="search-bar">
-          <input type="text" placeholder="Search games..." />
+          <input
+              type="text"
+              placeholder="Search games..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
         </div>
-        <div className="user-area">
+        {/*<div className="user-area">
           <button>Sign Up</button>
           <span>|</span>
           <button>Sign In</button>
+        </div>*/}
+        <div className="user-area">
+            {currentUser ? (
+                <>
+                    <span style={{ color: "white", marginRight: "10px" }}>
+                        Welcome, <b>{currentUser.username}</b>!
+                    </span>
+                    <span>|</span>
+                    <button onClick={handleLogout}>Logout</button>
+                </>
+            ) : (
+                <>
+                    <button onClick={() => { setShowRegister(true); setAuthMessage(""); }}>Sign Up</button>
+                    <span>|</span>
+                    <button onClick={() => { setShowLogin(true); setAuthMessage(""); }}>Sign In</button>
+                </>
+            )}
         </div>
       </header>
 
@@ -161,7 +238,8 @@ const GamesMainPage: React.FC = () => {
         </h2>
 
         <div className="games-grid">
-          {games.map((game) => {
+
+          {filteredGames.map((game) => {
             const matchingImage = images.find(img => img.imageid === game.id);
             return (
                 <div
@@ -194,6 +272,38 @@ const GamesMainPage: React.FC = () => {
           })}
         </div>
       </div>
+
+      {showLogin && (
+          <div className="popup-overlay">
+              <div className="popup-box">
+                  <div className="popup-title">Sign In</div>
+                  <form onSubmit={handleLogin} className="auth-form">
+                      <input type="text" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} className="auth-input" />
+                      <input type="password" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} className="auth-input" />
+                      {authMessage && <p className="error-text">{authMessage}</p>}
+                      <button type="submit" className="buy-btn">Login</button>
+                  </form>
+                  <button className="popup-close-btn" onClick={() => setShowLogin(false)}>Close</button>
+              </div>
+          </div>
+      )}
+
+      {showRegister && (
+          <div className="popup-overlay">
+              <div className="popup-box">
+                  <div className="popup-title">Sign Up</div>
+                  <form onSubmit={handleRegister} className="auth-form">
+                      <input type="text" placeholder="Username" required value={regUsername} onChange={e => setRegUsername(e.target.value)} className="auth-input" />
+                      <input type="email" placeholder="Email" required value={regEmail} onChange={e => setRegEmail(e.target.value)} className="auth-input" />
+                      <input type="password" placeholder="Password" required value={regPassword} onChange={e => setRegPassword(e.target.value)} className="auth-input" />
+                      {authMessage && <p className={authMessage.includes("Success") ? "success-text" : "error-text"}>{authMessage}</p>}
+                      <button type="submit" className="buy-btn">Register</button>
+                  </form>
+                  <button className="popup-close-btn" onClick={() => setShowRegister(false)}>Close</button>
+              </div>
+          </div>
+      )}
+
     </div>
   );
 };

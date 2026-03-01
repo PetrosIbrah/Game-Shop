@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import "./App.css";
 import Games from "./Games";
 import GameList from "./GameList";
@@ -93,6 +93,22 @@ function App() {
             </header>
         </div>
     );
+}*/
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import GameShop from "./GameShop";
+import GamesMainPage from "./GamesMainPage";
+
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<GamesMainPage />} />
+        <Route path="/GameShop" element={<GameShop />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

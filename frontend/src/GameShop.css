@@ -339,3 +339,38 @@
     display: inline-block;
     margin-bottom: -4px;
 }
+
+.buy-btn, .popup-close-btn {
+    background: #fff;
+    color: #000;
+    padding: 12px 24px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.buy-btn:hover, .popup-close-btn:hover {
+    background: #00ffea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 255, 234, 0.3);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.auth-input {
+    background: #000;
+    border: 1px solid #333;
+    padding: 12px;
+    color: #fff;
+    border-radius: 6px;
+    outline: none;
+}
