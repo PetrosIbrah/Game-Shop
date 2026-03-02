@@ -58,7 +58,6 @@ public class Game {
     public Integer getStocks() { return stocks; }
     public void setStocks(Integer stocks) { this.stocks = stocks; }
 
-    public String getdescription() {return description;}
-
-    public void setdescription(String description) {description = description;}
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
 }

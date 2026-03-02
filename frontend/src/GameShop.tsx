@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GameShop.css";
 import AuthService from "./AuthService";
+import { useNavigate } from "react-router-dom";
 
 type Game = {
   id: number;
@@ -46,12 +47,6 @@ const GameShop: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [code, setCode] = useState<string | null>(null);
     const [localSearch, setLocalSearch] = useState("");
-    const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && localSearch.trim() !== "") {
-            localStorage.setItem("pendingSearch", localSearch);
-            window.location.href = "/";
-        }
-    };
 
     //Authentication
     const [currentUser, setCurrentUser] = useState<any>(AuthService.getCurrentUser());
@@ -84,6 +79,14 @@ const GameShop: React.FC = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && localSearch.trim() !== "") {
+            localStorage.setItem("pendingSearch", localSearch);
+            navigate("/");
+            setLocalSearch("");
+        }
+    };
+
     useEffect(() => {
         const pending = localStorage.getItem("pendingSearch");
         if (pending) {
@@ -92,19 +95,20 @@ const GameShop: React.FC = () => {
         }
     }, []);
 
+    const navigate = useNavigate();
     const goToHome = () => {
-        window.location.href = "/";
+        navigate("/");
     };
 
     const handlePlatformClick = (platformName: string) => {
         localStorage.setItem("platform", platformName);
-        window.location.href = "/";
+        navigate("/");
     };
 
     const handleTagClick = (tagName: string) => {
         localStorage.setItem("gameTag", tagName);
         localStorage.removeItem("platform");
-        window.location.href = "/";
+        navigate("/");
     };
 
     const generateCode = () => {

@@ -7,18 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class UrlController {
 
-    @GetMapping("/games")
-    public String gamesPage() {
-        return "forward:/index.html";
-    }
-
     @GetMapping("/GameShop")
-    public String GameShopPage() {
-        return "forward:/index.html";
-    }
-
-    @GetMapping("/GameList")
-    public String GameListPage() {
+    public String GameShop() {
         return "forward:/index.html";
     }
 

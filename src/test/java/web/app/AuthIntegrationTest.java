@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -34,6 +35,125 @@ public class AuthIntegrationTest {
         mockMvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newUserJson))
-                .andExpect(status().isOk());           
+                .andExpect(status().isOk());
     }
+
+    @Test
+    public void testDuplicateUserSignUp() throws Exception {
+        String Duplicate1 = """
+                {
+                    "username": "Testuser1",
+                    "email": "oof@example.com",
+                    "password": "password"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(Duplicate1))
+                .andExpect(status().isOk());
+
+
+        Duplicate1 = """
+                {
+                    "username": "Testuser1",
+                    "email": "oof2@example.com",
+                    "password": "password"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(Duplicate1))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDuplicateEmailSignUp() throws Exception {
+        String Duplicate1 = """
+                {
+                    "username": "Testuser1",
+                    "email": "oof@example.com",
+                    "password": "password"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(Duplicate1))
+                .andExpect(status().isOk());
+
+
+        Duplicate1 = """
+                {
+                    "username": "Testuser2",
+                    "email": "oof@example.com",
+                    "password": "password"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(Duplicate1))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testSuccessfulLogIn() throws Exception {
+        String User = """
+                {
+                    "username": "Testuser1",
+                    "email": "oof@example.com",
+                    "password": "password123"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(User))
+                .andExpect(status().isOk());
+
+
+        User = """
+                {
+                    "username": "Testuser1",
+                    "password": "password123"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(User))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testwrongPasswordLogIn() throws Exception {
+        String User = """
+                {
+                    "username": "Testuser1",
+                    "email": "oof@example.com",
+                    "password": "password123"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(User))
+                .andExpect(status().isOk());
+
+
+        User = """
+                {
+                    "username": "Testuser1",
+                    "password": "password12"
+                }
+                """;
+
+        mockMvc.perform(post("/api/auth/signin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(User))
+                .andExpect(status().isForbidden());
+    }
+
 }

@@ -19,9 +19,53 @@ public class GameIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void testGetAllGames_ReturnsOkAndJson() throws Exception {
-
+    public void testGetAllGames() throws Exception {
         mockMvc.perform(get("/api/Games/all"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void testGetAllImagesGames() throws Exception {
+        mockMvc.perform(get("/api/Games/all/Images"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void testGetPlatformGames() throws Exception {
+        mockMvc.perform(get("/api/Games/Platform/PC"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/Platform/PlayStation 5"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/Platform/Xbox Series X"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/Platform/Nintendo Switch"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void testGetGameTagGames() throws Exception {
+        mockMvc.perform(get("/api/Games/GameTag/RPG"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/GameTag/Survival"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/GameTag/Sports"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        mockMvc.perform(get("/api/Games/GameTag/Shooter"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }

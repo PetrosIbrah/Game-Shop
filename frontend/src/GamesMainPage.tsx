@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./GamesMainPage.css";
 import AuthService from "./AuthService";
+import { useNavigate } from "react-router-dom";
 
 type GameListItem = {
     id: number;
@@ -26,7 +27,6 @@ const GamesMainPage: React.FC = () => {
   const filteredGames = games.filter((game) =>
     game.gameName.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
 
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(
       localStorage.getItem("platform")
@@ -111,9 +111,10 @@ const GamesMainPage: React.FC = () => {
     .finally(() => setLoading(false));
   }, [selectedPlatform, selectedTag]);
 
+  const navigate = useNavigate();
   const handleGameClick = (gameId: number) => {
     localStorage.setItem("gameId", gameId.toString());
-    window.location.href = "/GameShop";
+    navigate("/GameShop");
   };
 
   const goToHome = () => {
@@ -121,6 +122,7 @@ const GamesMainPage: React.FC = () => {
     setSelectedPlatform(null);
     localStorage.removeItem("gameTag");
     setSelectedTag(null);
+    setSearchQuery("");
   };
 
   const handlePlatformClick = (platformName: string) => {
@@ -138,6 +140,14 @@ const GamesMainPage: React.FC = () => {
       localStorage.removeItem("platform");
       setSelectedPlatform(null);
   };
+
+  useEffect(() => {
+      const pending = localStorage.getItem("pendingSearch");
+      if (pending) {
+          setSearchQuery(pending);
+          localStorage.removeItem("pendingSearch");
+      }
+  }, []);
 
   if (loading) return <div className="status-msg">Loading Library...</div>;
   if (error) return <div className="status-msg error">Error: {error}</div>;
@@ -157,11 +167,6 @@ const GamesMainPage: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
         </div>
-        {/*<div className="user-area">
-          <button>Sign Up</button>
-          <span>|</span>
-          <button>Sign In</button>
-        </div>*/}
         <div className="user-area">
             {currentUser ? (
                 <>
