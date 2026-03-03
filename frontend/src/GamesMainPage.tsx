@@ -187,48 +187,48 @@ const GamesMainPage: React.FC = () => {
       </header>
 
       <div className="platforms">
-        <img className="platform-icon" src="images/icons/steam.png" alt="PC"
+        <img className="platform-icon" src="/Images/Icons/steam.png" alt="PC"
             onClick={() => handlePlatformClick("PC")}
         />
-        <img className="platform-icon" src="images/icons/playstation.png" alt="PlayStation 5"
+        <img className="platform-icon" src="/Images/Icons/playstation.png" alt="PlayStation 5"
             onClick={() => handlePlatformClick("PlayStation 5")}
         />
-        <img className="platform-icon" src="images/icons/xbox.png" alt="Xbox Series X"
+        <img className="platform-icon" src="/Images/Icons/xbox.png" alt="Xbox Series X"
             onClick={() => handlePlatformClick("Xbox Series X")}
         />
-        <img className="platform-icon" src="images/icons/nintendo.png" alt="Nintendo Switch"
+        <img className="platform-icon" src="/Images/Icons/nintendo.png" alt="Nintendo Switch"
             onClick={() => handlePlatformClick("Nintendo Switch")}
         />
       </div>
 
      <div className="tags">
          <div className="tag-item" onClick={() => handleTagClick("Fighting")}>
-             <img className="tags-icon" src="images/tagicons/FIGHTING.png" alt="Fighting" />
+             <img className="tags-icon" src="/Images/TagIcons/FIGHTING.png" alt="Fighting" />
              <span className="tag-name">Fighting</span>
          </div>
 
          <div className="tag-item" onClick={() => handleTagClick("Racing")}>
-             <img className="tags-icon" src="images/tagicons/RACING.png" alt="Racing" />
+             <img className="tags-icon" src="/Images/TagIcons/RACING.png" alt="Racing" />
              <span className="tag-name">Racing</span>
          </div>
 
          <div className="tag-item" onClick={() => handleTagClick("RPG")}>
-             <img className="tags-icon" src="images/tagicons/RPG.png" alt="RPG" />
+             <img className="tags-icon" src="/Images/TagIcons/RPG.png" alt="RPG" />
              <span className="tag-name">RPG</span>
          </div>
 
          <div className="tag-item" onClick={() => handleTagClick("Shooter")}>
-             <img className="tags-icon" src="images/tagicons/SHOOTER.png" alt="Shooter" />
+             <img className="tags-icon" src="/Images/TagIcons/SHOOTER.png" alt="Shooter" />
              <span className="tag-name">Shooter</span>
          </div>
 
          <div className="tag-item" onClick={() => handleTagClick("Sports")}>
-             <img className="tags-icon" src="images/tagicons/SPORTS.png" alt="Sports" />
+             <img className="tags-icon" src="/Images/TagIcons/SPORTS.png" alt="Sports" />
              <span className="tag-name">Sports</span>
          </div>
 
          <div className="tag-item" onClick={() => handleTagClick("Survival")}>
-             <img className="tags-icon" src="images/tagicons/SURVIVAL.png" alt="Survival" />
+             <img className="tags-icon" src="/Images/TagIcons/SURVIVAL.png" alt="Survival" />
              <span className="tag-name">Survival</span>
          </div>
      </div>
